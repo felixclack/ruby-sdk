@@ -109,7 +109,7 @@ class Transloadit
   #   expiry time
   # @return [String] an API-compatible timestamp
   #
-  def _generate_expiry(duration = 5 * 360)
-    (Time.now + duration).utc.strftime('%Y/%m/%d %H:%M:%S+00:00')
+  def _generate_expiry
+    5.hours.from_now.utc.strftime('%Y/%m/%d %H:%M:%S+00:00')
   end
 end
