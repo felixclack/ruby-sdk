@@ -10,13 +10,13 @@ class Transloadit
   autoload :Response, 'transloadit/response'
   autoload :Step,     'transloadit/step'
   autoload :VERSION,  'transloadit/version'
-  
+
   # @return [String] your Transloadit auth key
   attr_accessor :key
-  
+
   # @return [String] your Transloadit auth secret, for signing requests
   attr_accessor :secret
-  
+
   #
   # Creates a new instance of the Transloadit API.
   #
@@ -31,10 +31,10 @@ class Transloadit
   def initialize(options = {})
     self.key    = options[:key]
     self.secret = options[:secret]
-    
+
     _ensure_key_provided
   end
-  
+
   #
   # Creates a Transloadit::Step describing a step in an upload assembly.
   #
@@ -48,7 +48,7 @@ class Transloadit
   def step(name, robot, options = {})
     Transloadit::Step.new(name, robot, options)
   end
-  
+
   #
   # Creates a Transloadit::Assembly ready to be sent to the REST API.
   #
@@ -66,14 +66,14 @@ class Transloadit
   def assembly(options = {})
     Transloadit::Assembly.new(self, options)
   end
-  
+
   #
   # @return [String] a human-readable version of the Transloadit.
   #
   def inspect
     self.to_hash.inspect
   end
-  
+
   #
   # @return [Hash] a Transloadit-compatible Hash of the instance's contents
   #
@@ -82,16 +82,16 @@ class Transloadit
     result.update(:expires => _generate_expiry) unless self.secret.nil?
     result
   end
-  
+
   #
   # @return [String] JSON-encoded String containing the object's hash contents
   #
   def to_json
     self.to_hash.to_json
   end
-  
+
   private
-  
+
   #
   # Raises an ArgumentError if no {#key} has been assigned.
   #
@@ -100,7 +100,7 @@ class Transloadit
       raise ArgumentError, 'an authentication key must be provided'
     end
   end
-  
+
   #
   # Automatically generates API-compatible request expiration times 5 minutes
   # from now.
@@ -109,7 +109,7 @@ class Transloadit
   #   expiry time
   # @return [String] an API-compatible timestamp
   #
-  def _generate_expiry(duration = 5 * 60)
+  def _generate_expiry(duration = 5 * 360)
     (Time.now + duration).utc.strftime('%Y/%m/%d %H:%M:%S+00:00')
   end
 end
